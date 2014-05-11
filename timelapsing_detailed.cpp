@@ -324,13 +324,6 @@ static int parseCmdArgs(int argc, char** argv)
     return 0;
 }
 
-String GetFileExtension(const String& FileName)
-{
-    if(FileName.find_last_of(".") != std::string::npos)
-        return FileName.substr(FileName.find_last_of(".")+1);
-    return "";
-}
-
 int main(int argc, char* argv[])
 {
 #if ENABLE_LOG
@@ -784,10 +777,12 @@ int main(int argc, char* argv[])
         }
 
         // Blend the current image
-	//        blender->feed(img_warped_s, mask_warped, corners[img_idx]);
+
+	//blender->feedAndRecord(img_warped_s, mask_warped, corners[img_idx]);
 	blender->resetDst();
-        blender->feed(img_warped_s, Mat::ones(mask_warped.size(), mask_warped.type()), corners[img_idx]);
-	blender->dumpDst(img_names[img_idx]+".fixed." + GetFileExtension(img_names[img_idx]));
+	blender->feed(img_warped_s, corners[img_idx]);
+
+	blender->dumpDst("fixed_" + img_names[img_idx]);
     }
 
     LOGLN("Finished, total time: " << ((getTickCount() - app_start_time) / getTickFrequency()) << " sec");
