@@ -782,7 +782,7 @@ int main(int argc, char* argv[])
 	blender->resetDst();
 	blender->feed(img_warped_s, corners[img_idx]);
 
-	blender->dumpDst("fixed_" + img_names[img_idx]);
+	imwrite("fixed_" + img_names[img_idx], blender->getDst());
     }
 
     LOGLN("Finished, total time: " << ((getTickCount() - app_start_time) / getTickFrequency()) << " sec");
